@@ -1,0 +1,83 @@
+<ion-header>
+  <ion-toolbar mode="ios">
+    <ion-buttons>
+      <ion-back-button mode="ios" text=""></ion-back-button>
+      <ion-title>Add Book</ion-title>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="bookForm">
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="11">
+        <ion-item lines="none" class="itemCont">
+          <ion-input type="text" placeholder="Name" formControlName="name"></ion-input>
+        </ion-item>
+        <ion-item lines="none" class="itemCont">
+          <ion-input type="text" placeholder="Author Name" formControlName="author"></ion-input>
+        </ion-item>
+        <ion-item lines="none" class="itemCont">
+          <ion-label>Publish Date</ion-label>
+          <ion-datetime mode="ios" value="" formControlName="publishDate" placeholder="Date" cancelText="Dismiss">
+          </ion-datetime>
+        </ion-item>
+        <ion-item lines="none" class="itemCont">
+          <ion-label>Type</ion-label>
+          <ion-select mode="ios" interface="action-sheet" value="" formControlName="type" placeholder="Type"
+                      okText="Okay" cancelText="Dismiss">
+            <ion-select-option *ngFor="let type of types" value="{{type}}">{{type}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item lines="none" class="itemCont">
+          <ion-label>Purpose</ion-label>
+          <ion-select mode="ios" interface="action-sheet" value="" formControlName="purpose"
+                      placeholder="Type" okText="Okay" cancelText="Dismiss" (ionChange)="typeChanged($event)">
+            <ion-select-option *ngFor="let type of ['Donation', 'Required']" value="{{type}}">{{type}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item *ngIf="showPriceForm" lines="none" class="itemCont">
+          <ion-label>Is Free</ion-label>
+          <ion-select mode="ios" interface="action-sheet" value=""
+                      placeholder="Type" okText="Okay" cancelText="Dismiss" (ionChange)="isFreeChanged($event)">
+            <ion-select-option *ngFor="let type of ['YES', 'NO']" value="{{type}}">{{type}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item *ngIf="isFree && showPriceForm" lines="none" class="itemCont">
+          <ion-input rows="5" type="text" placeholder="Rs.500" formControlName="price"></ion-input>
+        </ion-item>
+
+        <ion-item lines="none" class="itemCont">
+          <ion-textarea rows="5" type="text" placeholder="Type summary" formControlName="summary"></ion-textarea>
+        </ion-item>
+        <ion-row class="itemCont">
+          <ion-col size="6">
+            <ion-button (click)="openCamera(1)" size="small" shape="round" expand="block">
+              <ion-icon name="camera"></ion-icon>
+              Camera
+            </ion-button>
+          </ion-col>
+          <ion-col size="6">
+            <ion-button (click)="openCamera(2)" size="small" shape="round" expand="block">
+              <ion-icon name="image"></ion-icon>
+              Gallery
+            </ion-button>
+          </ion-col>
+        </ion-row>
+        <ion-card style="border-radius: 10px;" *ngIf="picture">
+          <img style="width: 100%;" src="{{picture}}"/>
+        </ion-card>
+<!--        <ion-card style="border-radius: 10px;" *ngIf="!picture">-->
+<!--          <ion-img style="width: 100%" src="{{'assets/books/1.jpeg'}}"></ion-img>-->
+<!--        </ion-card>-->
+        <div style="padding-top: 10px">
+          <ion-button [disabled]="bookForm.invalid" (click)="addBook()"
+                      color="primary" type="submit"
+                      expand="block">Save
+          </ion-button>
+        </div>
+      </ion-col>
+    </ion-row>
+  </form>
+</ion-content>

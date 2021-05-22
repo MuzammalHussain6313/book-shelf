@@ -1,0 +1,30 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>Books</ion-title>
+        <ion-icon color="primary" name="add-circle" slot="end" size="large"></ion-icon>
+    </ion-toolbar>
+    <ion-toolbar class="toolbar">
+        <ion-card class="searchBar card">
+            <ion-item lines="none">
+                <ion-icon name="search" color="primary" slot="start"></ion-icon>
+                <ion-input [(ngModel)]="searchText" (ionChange)="searchBook()" placeholder="Search"></ion-input>
+                <ion-icon (click)="closeSearch()" *ngIf="searchText" name="close" color="primary" slot="end"></ion-icon>
+            </ion-item>
+        </ion-card>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-row style="margin: 0px 6px 0px 6px;">
+        <ion-col size="6" class="py-0" *ngFor="let book of searchedBooks; index as i">
+            <ion-card (click)="openDetail(book)" style="text-transform: capitalize;" class="withdrawCard">
+                <img class="image" src="{{book?.image || 'assets/books/1.jpeg'}}"/>
+                <ion-card-header style="padding: 10px;">
+                    <ion-label>{{book?.name || 'Book Name'}}</ion-label>
+                    <p *ngIf="book?.price !== 0">Rs.{{book?.price}}</p>
+                    <p *ngIf="book?.price === 0" style="color: #2dd36f">Free</p>
+                </ion-card-header>
+            </ion-card>
+        </ion-col>
+    </ion-row>
+</ion-content>
